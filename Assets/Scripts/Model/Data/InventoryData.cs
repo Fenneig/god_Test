@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GoTTest.Model.Definitions;
+using GoTTest.Model.Definitions.Items;
 using GoTTest.Services;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace GoTTest.Model.Data
     {
         [SerializeField] private int _inventorySize;
         [SerializeField] private int _inventoryBlockedSlots;
-        [SerializeField] private List<ItemData> _itemData;
+        [SerializeField] private List<ItemData> _itemsData;
 
         public int InventorySize => _inventorySize;
         public int InventoryBlockedSlots => _inventoryBlockedSlots;
@@ -24,7 +25,7 @@ namespace GoTTest.Model.Data
             if (value <= 0) return;
 
             var valueLeft = value;
-            var itemDef = DefsFacade.I.Items.Get(id);
+            var itemDef = DefsFacade.I.ItemsDef.Get(id);
             var items = GetItems(id);
 
             foreach (var item in items)
@@ -54,7 +55,7 @@ namespace GoTTest.Model.Data
                 }
                 var item = new ItemData(id) { Value = Mathf.Min(valueLeft, itemDef.MaxStackSize) };
 
-                _itemData.Add(item);
+                _itemsData.Add(item);
 
                 valueLeft -= item.Value;
             }
@@ -72,24 +73,40 @@ namespace GoTTest.Model.Data
         public void Remove(string id, int value)
         {
             var item = GetItem(id);
-            if (item == null) return;
+            if (item == null)
+            {
+                Debug.LogError($"There is no {id} in inventory");
+                return;
+            }
 
             item.Value -= value;
 
             if (item.Value <= 0)
-                _itemData.Remove(item);
+                _itemsData.Remove(item);
 
             OnInventoryChanged?.Invoke();
         }
 
         private ItemData GetItem(string id) =>
-            _itemData.FirstOrDefault(itemData => itemData.Id == id);
+            _itemsData.FirstOrDefault(itemData => itemData.Id == id);
 
         private List<ItemData> GetItems(string id) =>
-            _itemData.Where(itemData => itemData.Id == id).ToList();
+            _itemsData.Where(itemData => itemData.Id == id).ToList();
 
 
         public ItemData[] GetAll() =>
-            _itemData.ToArray();
+            _itemsData.ToArray();
+
+        public bool TryGetAllItemsOfType(ItemType type, out List<ItemData> items)
+        {
+            items = new List<ItemData>();
+            foreach (var itemData in _itemsData)
+            {
+                if (DefsFacade.I.ItemsDef.Get(itemData.Id).ItemType == type)
+                    items.Add(itemData);
+            }
+
+            return items.Count > 0;
+        }
     }
 }

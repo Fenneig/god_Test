@@ -11,5 +11,8 @@ namespace GoTTest.Model.Definitions
 
         public ItemDef Get(string id) =>
             _items.FirstOrDefault(item => item.Id == id);
+
+        public ItemDef[] GetItemsByType(ItemType type) => 
+            _items.Where(item => item.ItemType == type).ToArray();
     }
 }

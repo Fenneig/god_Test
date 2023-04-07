@@ -45,7 +45,7 @@ namespace GoTTest
 
         private void Render(ItemData item, int amount)
         {
-            var itemDef = DefsFacade.I.ItemsDef.Get(item.Id);
+            var itemDef = DefsFacade.I.ItemsRepository.Get(item.Id);
 
             ItemWidget itemWidget;
 

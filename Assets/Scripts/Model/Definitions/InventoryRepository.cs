@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace GoTTest.Model.Definitions
 {
-    [CreateAssetMenu(fileName = "InventoryDef", menuName = "Defs/InventoryItem")]
-    public class InventoryItemsDef : ScriptableObject
+    [CreateAssetMenu(fileName = "InventoryRepository", menuName = "Defs/InventoryRepository")]
+    public class InventoryRepository : ScriptableObject
     {
         [SerializeField] private ItemDef[] _items;
 

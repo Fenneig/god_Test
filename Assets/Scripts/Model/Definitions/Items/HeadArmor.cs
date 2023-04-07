@@ -2,7 +2,7 @@
 
 namespace GoTTest.Model.Definitions.Items
 {
-    [CreateAssetMenu(fileName = "HeadArmor", menuName = "Defs/ItemsDef/HeadArmor")]
+    [CreateAssetMenu(fileName = "HeadArmor", menuName = "Defs/Items/HeadArmor")]
     public class HeadArmor : ItemDef
     {
         public int Armor;

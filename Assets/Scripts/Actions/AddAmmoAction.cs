@@ -9,7 +9,7 @@ namespace GoTTest.Actions
     {
         public void AddAmmo()
         {
-            var items = DefsFacade.I.ItemsDef.GetItemsByType(ItemType.Consumable);
+            var items = DefsFacade.I.ItemsRepository.GetItemsByType(ItemType.Consumable);
             
             foreach (var item in items)
                 GameSession.Instance.Data.InventoryData.Add(item.Id, item.MaxStackSize);

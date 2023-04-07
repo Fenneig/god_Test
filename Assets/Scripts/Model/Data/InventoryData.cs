@@ -25,7 +25,7 @@ namespace GoTTest.Model.Data
             if (value <= 0) return;
 
             var valueLeft = value;
-            var itemDef = DefsFacade.I.ItemsDef.Get(id);
+            var itemDef = DefsFacade.I.ItemsRepository.Get(id);
             var items = GetItems(id);
 
             foreach (var item in items)
@@ -120,7 +120,7 @@ namespace GoTTest.Model.Data
             items = new List<ItemData>();
             foreach (var itemData in _itemsData)
             {
-                if (DefsFacade.I.ItemsDef.Get(itemData.Id).ItemType == type)
+                if (DefsFacade.I.ItemsRepository.Get(itemData.Id).ItemType == type)
                     items.Add(itemData);
             }
 

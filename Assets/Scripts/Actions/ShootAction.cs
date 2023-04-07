@@ -1,5 +1,6 @@
 ﻿using GoTTest.Model;
 using GoTTest.Model.Definitions.Items;
+using GoTTest.Services;
 using UnityEngine;
 
 namespace GoTTest.Actions
@@ -11,7 +12,12 @@ namespace GoTTest.Actions
             if (GameSession.Instance.Data.InventoryData.TryGetAllItemsOfType(ItemType.Consumable, out var consumablesArray))
             {
                 var randomAmmo = consumablesArray[Random.Range(0, consumablesArray.Count)];
-                GameSession.Instance.Data.InventoryData.Remove(randomAmmo.Id, 1);
+                if (randomAmmo == null) Debug.LogError(Idents.Errors.OutOfAmmo);
+                else GameSession.Instance.Data.InventoryData.RemoveItem(randomAmmo.Id, 1);
+            }
+            else
+            {
+                Debug.LogError(Idents.Errors.OutOfAmmo);
             }
         }
         

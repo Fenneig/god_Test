@@ -1,6 +1,6 @@
 using GoTTest.Model;
 using GoTTest.Model.Definitions;
-using GoTTest.Services;
+using GoTTest.Model.Definitions.Items;
 using UnityEngine;
 
 namespace GoTTest.Actions
@@ -9,10 +9,10 @@ namespace GoTTest.Actions
     {
         public void AddAmmo()
         {
-            var maxPistolAmmoStackSize = DefsFacade.I.ItemsDef.Get(Idents.Items.PistolAmmo).MaxStackSize;
-            var maxRifleAmmoStackSize = DefsFacade.I.ItemsDef.Get(Idents.Items.RifleAmmo).MaxStackSize;
-            GameSession.Instance.Data.InventoryData.Add(Idents.Items.PistolAmmo, maxPistolAmmoStackSize);
-            GameSession.Instance.Data.InventoryData.Add(Idents.Items.RifleAmmo, maxRifleAmmoStackSize);
+            var items = DefsFacade.I.ItemsDef.GetItemsByType(ItemType.Consumable);
+            
+            foreach (var item in items)
+                GameSession.Instance.Data.InventoryData.Add(item.Id, item.MaxStackSize);
         }
     }
 }

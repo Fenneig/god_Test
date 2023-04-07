@@ -1,4 +1,5 @@
 ﻿using GoTTest.Model;
+using GoTTest.Services;
 using UnityEngine;
 
 namespace GoTTest.Actions
@@ -10,12 +11,12 @@ namespace GoTTest.Actions
             var invData = GameSession.Instance.Data.InventoryData.GetAll();
             if (invData.Length == 0)
             {
-                Debug.LogError("There is nothing to remove");
+                Debug.LogError(Idents.Errors.NothingToRemove);
                 return;
             }
             
             var randomData = invData[Random.Range(0, invData.Length)];
-            GameSession.Instance.Data.InventoryData.Remove(randomData.Id, randomData.Value);
+            GameSession.Instance.Data.InventoryData.RemoveAtIndex(randomData.InventoryIndex);
         }
     }
 }

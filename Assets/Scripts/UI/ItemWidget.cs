@@ -7,7 +7,6 @@ namespace GoTTest.UI
 {
     public class ItemWidget : MonoBehaviour
     {
-        [SerializeField] private Image _state;
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _amountText;
 
@@ -15,6 +14,7 @@ namespace GoTTest.UI
         {
             _icon.sprite = item.UIIcon;
             _amountText.text = amount > 1 ? $"{amount}/{item.MaxStackSize}" : "";
+            if (amount <= 0) Destroy(gameObject);
         }
     }
 }

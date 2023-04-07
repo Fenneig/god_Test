@@ -6,11 +6,13 @@ namespace GoTTest.Model.Data
     public class ItemData
     {
         public string Id;
-        public int Value;
+        public int Amount;
+        public int InventoryIndex;
 
         public ItemData(string id)
         {
             Id = id;
+            InventoryIndex = -1;
         }
     }
 }

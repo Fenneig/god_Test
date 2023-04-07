@@ -18,7 +18,7 @@ namespace GoTTest.Model.Data
         public int InventorySize => _inventorySize;
         public int InventoryBlockedSlots => _inventoryBlockedSlots;
 
-        public event Action OnInventoryChanged;
+        public event Action<ItemData, int> OnInventoryChanged;
 
         public void Add(string id, int value)
         {
@@ -32,18 +32,20 @@ namespace GoTTest.Model.Data
             {
                 if (valueLeft == 0) break;
 
-                if (item.Value == itemDef.MaxStackSize) continue;
+                if (item.Amount == itemDef.MaxStackSize) continue;
 
-                if (valueLeft + item.Value >= itemDef.MaxStackSize)
+                if (valueLeft + item.Amount >= itemDef.MaxStackSize)
                 {
-                    valueLeft -= itemDef.MaxStackSize - item.Value;
-                    item.Value = itemDef.MaxStackSize;
+                    valueLeft -= itemDef.MaxStackSize - item.Amount;
+                    item.Amount = itemDef.MaxStackSize;
                 }
                 else
                 {
-                    item.Value += valueLeft;
+                    item.Amount += valueLeft;
                     valueLeft = 0;
                 }
+                
+                OnInventoryChanged?.Invoke(item, item.Amount);
             }
 
             while (valueLeft != 0)
@@ -53,14 +55,14 @@ namespace GoTTest.Model.Data
                     Debug.LogError(Idents.Errors.FullInventory);
                     break;
                 }
-                var item = new ItemData(id) { Value = Mathf.Min(valueLeft, itemDef.MaxStackSize) };
+                var item = new ItemData(id) { Amount = Mathf.Min(valueLeft, itemDef.MaxStackSize) };
 
                 _itemsData.Add(item);
 
-                valueLeft -= item.Value;
+                valueLeft -= item.Amount;
+                
+                OnInventoryChanged?.Invoke(item, item.Amount);
             }
-
-            OnInventoryChanged?.Invoke();
         }
 
         private bool IsThereFreeSlots()
@@ -70,21 +72,37 @@ namespace GoTTest.Model.Data
             return slotsOccupiedAmount < _inventorySize - _inventoryBlockedSlots;
         }
 
-        public void Remove(string id, int value)
+        public void RemoveItem(string id, int value)
         {
             var item = GetItem(id);
             if (item == null)
             {
-                Debug.LogError($"There is no {id} in inventory");
+                Debug.LogError($"{Idents.Errors.InventoryNotContain} {id}");
                 return;
             }
 
-            item.Value -= value;
+            item.Amount -= value;
 
-            if (item.Value <= 0)
+            if (item.Amount <= 0)
                 _itemsData.Remove(item);
 
-            OnInventoryChanged?.Invoke();
+            OnInventoryChanged?.Invoke(item, item.Amount);
+        }
+
+        public void RemoveAtIndex(int index)
+        {
+            var item = _itemsData.FirstOrDefault(item => item.InventoryIndex == index);
+
+            if (item == null)
+            {
+                Debug.LogError($"{Idents.Errors.NoItemAtIndex} {index}");
+                return;
+            }
+            
+            item.Amount -= item.Amount;
+            _itemsData.Remove(item);
+
+            OnInventoryChanged?.Invoke(item, 0);
         }
 
         private ItemData GetItem(string id) =>

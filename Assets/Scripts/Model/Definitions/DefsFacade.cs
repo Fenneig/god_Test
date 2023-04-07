@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace GoTTest.Model.Definitions
 {
     [CreateAssetMenu(fileName = "DefsFacade", menuName = "Defs/DefsFacade")]
     public class DefsFacade : ScriptableObject
     {
-        [FormerlySerializedAs("_items")] [SerializeField] private InventoryItemsDef _itemsDef;
+        [SerializeField] private InventoryItemsDef _itemsDef;
 
         public InventoryItemsDef ItemsDef => _itemsDef;
         

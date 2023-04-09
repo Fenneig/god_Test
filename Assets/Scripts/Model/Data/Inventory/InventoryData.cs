@@ -6,7 +6,7 @@ using GoTTest.Model.Definitions.Items;
 using GoTTest.Services;
 using UnityEngine;
 
-namespace GoTTest.Model.Data
+namespace GoTTest.Model.Data.Inventory
 {
     [Serializable]
     public class InventoryData
@@ -125,6 +125,12 @@ namespace GoTTest.Model.Data
             }
 
             return items.Count > 0;
+        }
+
+        public void UnlockInventorySlots(int amount)
+        {
+            _inventoryBlockedSlots -= amount;
+            if (_inventoryBlockedSlots < 0) _inventoryBlockedSlots = 0;
         }
     }
 }

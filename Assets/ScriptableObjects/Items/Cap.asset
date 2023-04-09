@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6878b7d1534b4bc0b0c8f34c5288bbfe, type: 3}
   m_Name: Cap
   m_EditorClassIdentifier: 
-  Id: Cap
+  _id: Cap
   UIIcon: {fileID: 21300000, guid: 77ca7605a85860f40b3be8080a349462, type: 3}
   Weight: 0.1
   MaxStackSize: 1

@@ -1,13 +1,14 @@
 ﻿using GoTTest.Model;
-using GoTTest.Model.Data;
+using GoTTest.Model.Data.Inventory;
+using GoTTest.Model.Data.Purchases;
 using GoTTest.Model.Definitions;
+using GoTTest.Model.Definitions.Shop;
 using GoTTest.Services;
-using GoTTest.UI;
 using UnityEngine;
 
-namespace GoTTest
+namespace GoTTest.UI
 {
-    public class Inventory : MonoBehaviour
+    public class InventoryWidget : MonoBehaviour
     {
         [SerializeField] private InventorySlotWidget _inventorySlotPrefab;
         [SerializeField] private ItemWidget _itemPrefab;
@@ -15,25 +16,20 @@ namespace GoTTest
 
         private InventorySlotWidget[] _inventory;
         private InventoryData _sessionInventoryData;
+        private PurchaseData _sessionPurchaseData;
 
         private void Start()
         {
             _sessionInventoryData = GameSession.Instance.Data.InventoryData;
-
+            
             var slots = _sessionInventoryData.InventorySize;
             var blockedSlots = _sessionInventoryData.InventoryBlockedSlots;
             _inventory = new InventorySlotWidget[slots];
 
-            for (int i = 0; i < slots; i++)
-            {
-                var inventoryCell = Instantiate(_inventorySlotPrefab, _contentContainer);
-                _inventory[i] = inventoryCell;
-
-                inventoryCell.UnlockCell();
-                if (slots - i <= blockedSlots) inventoryCell.LockCell();
-            }
+            InitInventoryWidgets(slots, blockedSlots);
 
             _sessionInventoryData.OnInventoryChanged += Render;
+            GameSession.ShopModel.OnBuyLot += UnlockInventorySlots;
 
             foreach (var item in _sessionInventoryData.GetAll())
             {
@@ -42,12 +38,44 @@ namespace GoTTest
                 Render(item, item.Amount);
             }
         }
+        
+        private void UnlockInventorySlots(string id)
+        {
+            if (id != Idents.ShopDefs.InventorySlots) return;
+            
+            var totalSlots = _sessionInventoryData.InventorySize;
+            var blockedSlots = _sessionInventoryData.InventoryBlockedSlots;
+            
+            var purchaseProgress = GameSession.Instance.Data.PurchasesData.GetPurchaseState(Idents.ShopDefs.InventorySlots);
+            var slotsLot = DefsFacade.I.ShopRepository.Get(Idents.ShopDefs.InventorySlots) as MultiplyLot;
+            var slotsUnlocked = slotsLot == null ? 0 : slotsLot.Levels[purchaseProgress].Value;
+            
+            var lastBlockedSlot = totalSlots - blockedSlots;
+
+            for (int i = lastBlockedSlot; i < lastBlockedSlot + slotsUnlocked; i++)
+            {
+                _inventory[i].UnlockCell();
+            }
+
+            GameSession.Instance.Data.InventoryData.UnlockInventorySlots((int) slotsUnlocked);
+        }
+
+
+        private void InitInventoryWidgets(int slots, int blockedSlots)
+        {
+            for (int i = 0; i < slots; i++)
+            {
+                var inventoryCell = Instantiate(_inventorySlotPrefab, _contentContainer);
+                _inventory[i] = inventoryCell;
+
+                inventoryCell.UnlockCell();
+                if (slots - i <= blockedSlots) inventoryCell.LockCell();
+            }
+        }
 
         private void Render(ItemData item, int amount)
         {
             var itemDef = DefsFacade.I.ItemsRepository.Get(item.Id);
-
-            ItemWidget itemWidget;
 
             if (item.InventoryIndex == -1)
             {
@@ -57,7 +85,7 @@ namespace GoTTest
                 InstantiateItemWidgetAtIndex(index);
             }
 
-            itemWidget = _inventory[item.InventoryIndex].ItemWidget;
+            var itemWidget = _inventory[item.InventoryIndex].ItemWidget;
 
             if (amount == 0) _inventory[item.InventoryIndex].ReleaseItem();
 
@@ -67,8 +95,7 @@ namespace GoTTest
 
         private void InstantiateItemWidgetAtIndex(int index)
         {
-            ItemWidget itemWidget;
-            itemWidget = Instantiate(_itemPrefab, _inventory[index].transform);
+            var itemWidget = Instantiate(_itemPrefab, _inventory[index].transform);
             _inventory[index].SetItemWidget(itemWidget);
         }
 
@@ -86,6 +113,7 @@ namespace GoTTest
         private void OnDestroy()
         {
             _sessionInventoryData.OnInventoryChanged -= Render;
+            GameSession.ShopModel.OnBuyLot -= UnlockInventorySlots;
         }
     }
 }

@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277df1c13d9740cbb7af7c0275aa5272, type: 3}
-  m_Name: PistolAmmo
+  m_Script: {fileID: 11500000, guid: 8d0f2bc4e21d4161998425571bebc9d7, type: 3}
+  m_Name: ShopRepository
   m_EditorClassIdentifier: 
-  _id: PistolAmmo
-  UIIcon: {fileID: 21300000, guid: 996db5d8e0818834c98e3bfe6513a2c8, type: 3}
-  Weight: 0.01
-  MaxStackSize: 15
+  _collection:
+  - {fileID: 11400000, guid: b54cca596feae4344a406cfd6a4882a3, type: 2}

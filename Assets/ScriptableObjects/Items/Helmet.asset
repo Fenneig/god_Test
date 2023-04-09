@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6878b7d1534b4bc0b0c8f34c5288bbfe, type: 3}
   m_Name: Helmet
   m_EditorClassIdentifier: 
-  Id: Helmet
+  _id: Helmet
   UIIcon: {fileID: 21300000, guid: 3c1ed2f6f58526d439cebb57a6b24bb2, type: 3}
   Weight: 1
   MaxStackSize: 1

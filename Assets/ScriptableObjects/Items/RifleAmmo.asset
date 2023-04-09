@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 277df1c13d9740cbb7af7c0275aa5272, type: 3}
   m_Name: RifleAmmo
   m_EditorClassIdentifier: 
-  Id: RifleAmmo
+  _id: RifleAmmo
   UIIcon: {fileID: 21300000, guid: fe4545dcd751c0d4d88a6da5c41abd94, type: 3}
   Weight: 0.01
   MaxStackSize: 30

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e6b5b0b38a4b8b97f72a75c5af081d, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  Id: Pistol
+  _id: Pistol
   UIIcon: {fileID: 21300000, guid: a033a47638bd02d43b2057d88dd87363, type: 3}
   Weight: 1
   MaxStackSize: 1

@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be453acd1d3420dac1d18db2b6fc5f1, type: 3}
   m_Name: DefsFacade
   m_EditorClassIdentifier: 
-  _items: {fileID: 11400000, guid: a7665f8c96453b9488c81b1024769f3b, type: 2}
+  _itemsItemsRepository: {fileID: 11400000, guid: a7665f8c96453b9488c81b1024769f3b, type: 2}
+  _shopRepository: {fileID: 11400000, guid: abb1f4bbfdd66274d8f62329563faba2, type: 2}

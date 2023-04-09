@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GoTTest.Model.Definitions.Repositories;
+using UnityEngine;
 
 namespace GoTTest.Model.Definitions
 {
@@ -6,8 +7,10 @@ namespace GoTTest.Model.Definitions
     public class DefsFacade : ScriptableObject
     {
         [SerializeField] private InventoryRepository _itemsItemsRepository;
+        [SerializeField] private ShopRepository _shopRepository;
 
         public InventoryRepository ItemsRepository => _itemsItemsRepository;
+        public ShopRepository ShopRepository => _shopRepository;
         
         private static DefsFacade _instance;
         public static DefsFacade I => _instance == null ? LoadDefs() : _instance;

@@ -1,4 +1,6 @@
 ﻿using System;
+using GoTTest.Model.Data.Inventory;
+using GoTTest.Model.Data.Purchases;
 using UnityEngine;
 
 namespace GoTTest.Model.Data
@@ -7,7 +9,12 @@ namespace GoTTest.Model.Data
     public class PlayerData
     {
         [SerializeField] private InventoryData _inventory;
+        [SerializeField] private PurchaseData _purchasesData;
 
         public InventoryData InventoryData => _inventory;
+        public PurchaseData PurchasesData => _purchasesData;
+
     }
+
+    
 }

@@ -7,11 +7,14 @@ namespace GoTTest.Model
     {
         [SerializeField] private PlayerData _data;
         public PlayerData Data => _data;
+        public static ShopModel ShopModel { get; private set; }
         
         public static GameSession Instance;
 
         private void Awake()
         {
+            ShopModel = new ShopModel(Data);
+            
             Instance ??= this;
         }
     }

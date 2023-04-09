@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3890390ec074995ad13ef7a996907d7, type: 3}
-  m_Name: InventoryDef
+  m_Name: InventoryRepository
   m_EditorClassIdentifier: 
-  _items:
+  _collection:
   - {fileID: 11400000, guid: 74daafb907b0b8940b6ac3916f4e4258, type: 2}
   - {fileID: 11400000, guid: f315a6c1a6b4fff48b216dbc1ae85428, type: 2}
   - {fileID: 11400000, guid: 75091e31697f7ac4ca150f64c99e6567, type: 2}

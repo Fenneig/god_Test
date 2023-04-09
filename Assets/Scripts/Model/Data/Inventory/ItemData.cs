@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoTTest.Model.Data
+namespace GoTTest.Model.Data.Inventory
 {
     [Serializable]
     public class ItemData

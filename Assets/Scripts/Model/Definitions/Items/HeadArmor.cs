@@ -5,8 +5,10 @@ namespace GoTTest.Model.Definitions.Items
     [CreateAssetMenu(fileName = "HeadArmor", menuName = "Defs/Items/HeadArmor")]
     public class HeadArmor : ItemDef
     {
-        public int Armor;
-        
+        [SerializeField] private int _armor;
+
+        public int Armor => _armor;
+
         private void Awake()
         {
             ItemType = ItemType.HeadArmor;

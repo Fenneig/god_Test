@@ -65,6 +65,11 @@ namespace GoTTest.Model.Data.Inventory
             }
         }
 
+        public void AddItem(ItemData item)
+        {
+            _itemsData.Add(item);
+        }
+
         private bool IsThereFreeSlots()
         {
             var slotsOccupiedAmount = GetAll().Length;
@@ -125,12 +130,6 @@ namespace GoTTest.Model.Data.Inventory
             }
 
             return items.Count > 0;
-        }
-
-        public void UnlockInventorySlots(int amount)
-        {
-            _inventoryBlockedSlots -= amount;
-            if (_inventoryBlockedSlots < 0) _inventoryBlockedSlots = 0;
         }
     }
 }

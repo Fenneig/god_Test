@@ -8,6 +8,9 @@ namespace GoTTest.UI
         [SerializeField] private Image _blockedCell;
         public ItemWidget ItemWidget { get; private set; }
 
+        public bool IsFree { get; set; }
+        public bool IsLocked { get; set; }
+
         public void SetItemWidget(ItemWidget item)
         {
             ItemWidget = item;
@@ -19,18 +22,18 @@ namespace GoTTest.UI
             ItemWidget = null;
             IsFree = true;
         }
-        
-        public bool IsFree { get; set; }
 
         public void LockCell()
         {
             IsFree = false;
+            IsLocked = true;
             _blockedCell.gameObject.SetActive(true);
         }
 
         public void UnlockCell()
         {
             IsFree = true;
+            IsLocked = false;
             _blockedCell.gameObject.SetActive(false);
         }
     }

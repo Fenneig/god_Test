@@ -1,8 +1,6 @@
 ﻿using GoTTest.Model;
 using GoTTest.Model.Data.Inventory;
-using GoTTest.Model.Data.Purchases;
 using GoTTest.Model.Definitions;
-using GoTTest.Model.Definitions.Shop;
 using GoTTest.Services;
 using UnityEngine;
 
@@ -16,7 +14,6 @@ namespace GoTTest.UI
 
         private InventorySlotWidget[] _inventory;
         private InventoryData _sessionInventoryData;
-        private PurchaseData _sessionPurchaseData;
 
         private void Start()
         {
@@ -37,27 +34,27 @@ namespace GoTTest.UI
 
                 Render(item, item.Amount);
             }
+            
+            UnlockInventorySlots(Idents.ShopDefs.InventorySlots);
         }
         
-        private void UnlockInventorySlots(string id)
+        private void UnlockInventorySlots(string purchaseId)
         {
-            if (id != Idents.ShopDefs.InventorySlots) return;
+            if (purchaseId != Idents.ShopDefs.InventorySlots) return;
             
+            var sessionPurchasedData = GameSession.Instance.Data.PurchasesData;
+            if (!sessionPurchasedData.HasPurchase(purchaseId)) return;
+            
+            var purchasedSlots = sessionPurchasedData.GetTotalPurchasedAmount(Idents.ShopDefs.InventorySlots);
             var totalSlots = _sessionInventoryData.InventorySize;
             var blockedSlots = _sessionInventoryData.InventoryBlockedSlots;
-            
-            var purchaseProgress = GameSession.Instance.Data.PurchasesData.GetPurchaseState(Idents.ShopDefs.InventorySlots);
-            var slotsLot = DefsFacade.I.ShopRepository.Get(Idents.ShopDefs.InventorySlots) as MultiplyLot;
-            var slotsUnlocked = slotsLot == null ? 0 : slotsLot.Levels[purchaseProgress].Value;
-            
-            var lastBlockedSlot = totalSlots - blockedSlots;
 
-            for (int i = lastBlockedSlot; i < lastBlockedSlot + slotsUnlocked; i++)
+            var baseUnlockedSlotsIndex = totalSlots - blockedSlots;
+
+            for (int i = baseUnlockedSlotsIndex; i < baseUnlockedSlotsIndex + purchasedSlots; i++)
             {
-                _inventory[i].UnlockCell();
+                if (_inventory[i].IsLocked) _inventory[i].UnlockCell();
             }
-
-            GameSession.Instance.Data.InventoryData.UnlockInventorySlots((int) slotsUnlocked);
         }
 
 

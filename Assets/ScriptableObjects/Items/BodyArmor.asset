@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BodyArmor
   m_EditorClassIdentifier: 
   _id: BodyArmor
-  UIIcon: {fileID: 21300000, guid: bd1346cd5365c8b4b8d01536d17f5913, type: 3}
-  Weight: 10
-  MaxStackSize: 1
-  Armor: 10
+  _uiIcon: {fileID: 21300000, guid: bd1346cd5365c8b4b8d01536d17f5913, type: 3}
+  _weight: 10
+  _maxStackSize: 1
+  _armor: 10

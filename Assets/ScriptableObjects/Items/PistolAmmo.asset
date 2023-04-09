@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PistolAmmo
   m_EditorClassIdentifier: 
   _id: PistolAmmo
-  UIIcon: {fileID: 21300000, guid: 996db5d8e0818834c98e3bfe6513a2c8, type: 3}
-  Weight: 0.01
-  MaxStackSize: 15
+  _uiIcon: {fileID: 21300000, guid: 996db5d8e0818834c98e3bfe6513a2c8, type: 3}
+  _weight: 0.01
+  _maxStackSize: 15

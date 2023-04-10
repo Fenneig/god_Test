@@ -13,8 +13,5 @@ namespace GoTTest.Model.Data
 
         public InventoryData InventoryData => _inventory;
         public PurchaseData PurchasesData => _purchasesData;
-
     }
-
-    
 }

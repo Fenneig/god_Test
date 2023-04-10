@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GoTTest.Model.Definitions.Repositories
 {
-    [CreateAssetMenu(fileName = "InventoryRepository", menuName = "Defs/Repositories/InventoryWidget")]
+    [CreateAssetMenu(fileName = "InventoryRepository", menuName = "Defs/Repositories/InventoryModel")]
     public class InventoryRepository : DefRepository<ItemDef>
     {
         public ItemDef[] GetItemsByType(ItemType type) => 

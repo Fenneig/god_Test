@@ -14,6 +14,5 @@ namespace GoTTest.Model.Definitions.Repositories
 
         public TDefType[] GetAll =>
             new List<TDefType>(_collection).ToArray();
-
     }
 }

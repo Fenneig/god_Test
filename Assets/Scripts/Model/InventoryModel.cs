@@ -1,12 +1,13 @@
-﻿using GoTTest.Model;
-using GoTTest.Model.Data.Inventory;
+﻿using GoTTest.Model.Data.Inventory;
 using GoTTest.Model.Definitions;
 using GoTTest.Services;
+using GoTTest.UI.Item;
+using GoTTest.UI.ItemSlot;
 using UnityEngine;
 
-namespace GoTTest.UI
+namespace GoTTest.Model
 {
-    public class InventoryWidget : MonoBehaviour
+    public class InventoryModel : MonoBehaviour
     {
         [SerializeField] private InventorySlotWidget _inventorySlotPrefab;
         [SerializeField] private ItemWidget _itemPrefab;
@@ -24,10 +25,7 @@ namespace GoTTest.UI
             _inventory = new InventorySlotWidget[slots];
 
             InitInventoryWidgets(slots, blockedSlots);
-
-            _sessionInventoryData.OnInventoryChanged += Render;
-            GameSession.ShopModel.OnBuyLot += UnlockInventorySlots;
-
+            
             foreach (var item in _sessionInventoryData.GetAll())
             {
                 if (item.InventoryIndex != -1) InstantiateItemWidgetAtIndex(item.InventoryIndex);
@@ -36,6 +34,9 @@ namespace GoTTest.UI
             }
             
             UnlockInventorySlots(Idents.ShopDefs.InventorySlots);
+            
+            _sessionInventoryData.OnInventoryChanged += Render;
+            GameSession.ShopModel.OnBuyLot += UnlockInventorySlots;
         }
         
         private void UnlockInventorySlots(string purchaseId)
@@ -64,6 +65,7 @@ namespace GoTTest.UI
             {
                 var inventoryCell = Instantiate(_inventorySlotPrefab, _contentContainer);
                 _inventory[i] = inventoryCell;
+                _inventory[i].SetIndex(i);
 
                 inventoryCell.UnlockCell();
                 if (slots - i <= blockedSlots) inventoryCell.LockCell();
@@ -83,6 +85,8 @@ namespace GoTTest.UI
             }
 
             var itemWidget = _inventory[item.InventoryIndex].ItemWidget;
+            
+            if (itemWidget == null) return;
 
             if (amount == 0) _inventory[item.InventoryIndex].ReleaseItem();
 
@@ -100,7 +104,7 @@ namespace GoTTest.UI
         {
             for (int i = 0; i < _inventory.Length; i++)
             {
-                if (_inventory[i].IsFree) return i;
+                if (_inventory[i].ItemWidget == null) return i;
             }
 
             Debug.LogError(Idents.Errors.LogicErrorFullInventory);

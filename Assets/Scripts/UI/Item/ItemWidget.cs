@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GoTTest.UI
+namespace GoTTest.UI.Item
 {
     public class ItemWidget : MonoBehaviour
     {

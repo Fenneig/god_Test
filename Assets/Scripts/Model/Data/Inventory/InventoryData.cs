@@ -68,13 +68,8 @@ namespace GoTTest.Model.Data.Inventory
         public void AddItem(ItemData item)
         {
             _itemsData.Add(item);
-        }
-
-        private bool IsThereFreeSlots()
-        {
-            var slotsOccupiedAmount = GetAll().Length;
-
-            return slotsOccupiedAmount < _inventorySize - _inventoryBlockedSlots;
+            
+            OnInventoryChanged?.Invoke(item, item.Amount);
         }
 
         public void RemoveItem(string id, int value)
@@ -110,12 +105,8 @@ namespace GoTTest.Model.Data.Inventory
             OnInventoryChanged?.Invoke(item, 0);
         }
 
-        private ItemData GetItem(string id) =>
-            _itemsData.FirstOrDefault(itemData => itemData.Id == id);
-
-        private List<ItemData> GetItems(string id) =>
-            _itemsData.Where(itemData => itemData.Id == id).ToList();
-
+        public ItemData GetItemAtIndex(int index) =>
+            _itemsData.FirstOrDefault(itemData => itemData.InventoryIndex == index);
 
         public ItemData[] GetAll() =>
             _itemsData.ToArray();
@@ -131,5 +122,18 @@ namespace GoTTest.Model.Data.Inventory
 
             return items.Count > 0;
         }
+
+        private bool IsThereFreeSlots()
+        {
+            var slotsOccupiedAmount = GetAll().Length;
+
+            return slotsOccupiedAmount < _inventorySize - _inventoryBlockedSlots;
+        }
+
+        private ItemData GetItem(string id) =>
+            _itemsData.FirstOrDefault(itemData => itemData.Id == id);
+
+        private List<ItemData> GetItems(string id) =>
+            _itemsData.Where(itemData => itemData.Id == id).ToList();
     }
 }

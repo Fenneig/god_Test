@@ -25,9 +25,9 @@ namespace GoTTest.Model
             //Тут должна быть логика на проверку ресурсов для покупки лота
             //но в данном задании нет нужды полностью реализовывать магазин
             //так что это просто для примера как оно должно работать
-            var isEnoughtResources = true;
+            var isEnoughResources = true;
             
-            if (!isEnoughtResources) return;
+            if (!isEnoughResources) return;
 
             if (lotDef is MultiplyLot lot)
             {

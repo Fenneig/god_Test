@@ -22,9 +22,11 @@ namespace GoTTest.Model
             
             var slots = _sessionInventoryData.InventorySize;
             var blockedSlots = _sessionInventoryData.InventoryBlockedSlots;
+            var unlockedSlots = (int)
+                GameSession.Instance.Data.PurchasesData.GetTotalPurchasedAmount(Idents.ShopDefs.InventorySlots);
             _inventory = new InventorySlotWidget[slots];
 
-            InitInventoryWidgets(slots, blockedSlots);
+            InitInventoryWidgets(slots, blockedSlots - unlockedSlots);
             
             foreach (var item in _sessionInventoryData.GetAll())
             {

@@ -12,7 +12,7 @@ namespace GoTTest.UI.ItemSlot
 
         public void OnDrop(PointerEventData eventData)
         {
-            if (_widget.ItemWidget != null) return;
+            if (_widget.ItemWidget != null || _widget.IsLocked) return;
             GameObject dropped = eventData.pointerDrag;
             DraggableItem draggableItem = dropped.GetComponent<DraggableItem>();
             

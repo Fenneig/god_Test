@@ -126,8 +126,10 @@ namespace GoTTest.Model.Data.Inventory
         private bool IsThereFreeSlots()
         {
             var slotsOccupiedAmount = GetAll().Length;
+            var unlockedSlots = (int) GameSession.Instance.Data.PurchasesData.GetTotalPurchasedAmount(Idents.ShopDefs.InventorySlots);
+            var totalLockedSlots = _inventoryBlockedSlots - unlockedSlots;
 
-            return slotsOccupiedAmount < _inventorySize - _inventoryBlockedSlots;
+            return slotsOccupiedAmount < _inventorySize - totalLockedSlots;
         }
 
         private ItemData GetItem(string id) =>
